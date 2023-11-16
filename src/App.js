@@ -5,13 +5,11 @@ function App() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(5); // Timer for each question
+  const [timer, setTimer] = useState(5);
   const [quizEnded, setQuizEnded] = useState(false);
   const [questionSkipped, setQuestionSkipped] = useState(false);
 
-  const timerRef = useRef(null); // Ref for the timer timeout
-
-  // Effect for fetching questions when the component mounts
+  const timerRef = useRef(null); 
   useEffect(() => {
     async function fetchQuestions() {
       try {
@@ -27,8 +25,7 @@ function App() {
 
     fetchQuestions();
   }, []);
-
-  // Effect for starting and updating the timer
+  
   useEffect(() => {
     if (currentQuestionIndex < questions.length && timer > 0) {
       timerRef.current = setTimeout(() => {
@@ -39,7 +36,6 @@ function App() {
         }
       }, 1000);
 
-      // Clean up the timer when the component unmounts or when the current question changes
       return () => {
         clearTimeout(timerRef.current);
       };
@@ -48,30 +44,25 @@ function App() {
 
   useEffect(() => {
     if (questionSkipped) {
-      // Handle any actions needed when a question is skipped
       handleNextQuestion();
-      setQuestionSkipped(false); // Reset the skip flag
+      setQuestionSkipped(false);
     }
   }, [questionSkipped]);
 
-  // Function to handle skipping a question
   const handleSkipQuestion = () => {
-    setQuestionSkipped(true); // Set the skip flag to true
+    setQuestionSkipped(true);
   };
-
-  // Function for handling the next question
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setTimer(5); // Reset the timer for the next question (5 seconds)
+      setTimer(5);
     } else {
       // End of the quiz
       setQuizEnded(true);
-      clearTimeout(timerRef.current); // Stop the timer when the quiz ends
+      clearTimeout(timerRef.current);
     }
   };
 
-  // Function for handling user answer clicks
   const handleAnswerClick = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
@@ -86,7 +77,6 @@ function App() {
   if (quizEnded) {
     return (
       <div className="quiz-container">
-        {/* Quiz Ended Phase: Display the final score */}
         <h2>Quiz Ended</h2>
         <p>
           Your score: {score}/{questions.length}
