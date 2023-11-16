@@ -57,7 +57,6 @@ function App() {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setTimer(5);
     } else {
-      // End of the quiz
       setQuizEnded(true);
       clearTimeout(timerRef.current);
     }
@@ -89,11 +88,11 @@ function App() {
 
   return (
     <div className="quiz-container">
-      <h1>Quiz App</h1>
+      <h1>MCQ Quiz App</h1>
       <div>
         <h2>Question {currentQuestionIndex + 1}</h2>
         <p>{currentQuestion.question}</p>
-        <ul>
+        <ol>
           {currentQuestion.incorrect_answers.map((answer, index) => (
             <li key={index}>
               <button onClick={() => handleAnswerClick(false)}>{answer}</button>
@@ -104,7 +103,7 @@ function App() {
               {currentQuestion.correct_answer}
             </button>
           </li>
-        </ul>
+        </ol>
         <p>Time left: {timer} seconds</p>
         <button onClick={handleSkipQuestion}>Skip Question</button>
       </div>
